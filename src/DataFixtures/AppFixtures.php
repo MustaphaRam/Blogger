@@ -28,11 +28,11 @@ class AppFixtures extends Fixture
         
         // Create an admin user
         $admin = new User();
-        $admin->setName('admin');
-        $admin->setLastname('admin');
+        $admin->setUsername('admin');
         $admin->setEmail('admin@example.com');
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setPassword($this->passwordHasherFactory->getPasswordHasher(User::class)->hash('admin123'));
+        $admin->setCreatedAt(new \DateTime());
         /* $admin->setPassword($this->passwordEncoder->encodePassword(
             $admin,
             'admin123' // Change this to a secure password
