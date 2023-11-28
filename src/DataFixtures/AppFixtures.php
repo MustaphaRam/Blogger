@@ -33,11 +33,7 @@ class AppFixtures extends Fixture
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setPassword($this->passwordHasherFactory->getPasswordHasher(User::class)->hash('admin123'));
         $admin->setCreatedAt(new \DateTime());
-        /* $admin->setPassword($this->passwordEncoder->encodePassword(
-            $admin,
-            'admin123' // Change this to a secure password
-        )); */
-
+        
         $manager->persist($admin);
         $manager->flush();
     }
