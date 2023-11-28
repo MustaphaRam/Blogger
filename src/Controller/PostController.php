@@ -20,7 +20,7 @@ class PostController extends AbstractController
         PostRepository $postRepository,
         MannagereDoctrime $entityManager,
     } */
-    #[Route('/store/post', name: 'post')]
+    #[Route('/store/post', name: 'posts')]
     public function store(Request $request): Response
     {
         $post = new Post();

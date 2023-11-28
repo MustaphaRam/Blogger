@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row my-4">
+    <div class="col-md-4 mx-auto">
+        <div class="card">
+            <div class="card-header">Login</div>
+            <div class="card-body">
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <div class="mb-3">
+                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+
+                    <h2 class="h3 mb-3 font-weight-normal">Please Login</h2>
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label required">Email</label>
+                        <input type="email" value="{{ app.request.cookies.get('remembered_email') }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputPassword" class="form-label required">Password</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    
+                    {# {{ form_label(form.rememberMe) }} #}
+                    <div class="mb-3">
+                        <input type="checkbox" name="remember_me" id="inputRememeber" autocomplete="current-password" checked>
+                        <label for="inputRememeber" class="form-label">Rememeber Me</label>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+// Check if remembered email exists in localStorage
+var rememberedEmail = localStorage.getItem('remembered_email');
+if (rememberedEmail) {
+    // Populate the email field with the remembered email
+    document.getElementById('email').value = rememberedEmail;
+
+    // Check the "Remember Me" checkbox
+    document.getElementById('rememberMe').checked = true;
+}
+
+// Store the email in localStorage when the form is submitted
+document.querySelector('form').addEventListener('submit', function() {
+    var emailInput = document.getElementById('email');
+    var rememberMeCheckbox = document.getElementById('rememberMe');
+
+    // Store the email only if "Remember Me" is checked
+    if (rememberMeCheckbox.checked) {
+        localStorage.setItem('remembered_email', emailInput.value);
+    } else {
+        // Clear the remembered email if "Remember Me" is not checked
+        localStorage.removeItem('remembered_email');
+    }
+});
+</script>
+
+{% endblock %}
